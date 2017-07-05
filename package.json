@@ -1,0 +1,68 @@
+{
+  "name": "wdio-example",
+  "version": "1.0.0",
+  "description": "an example project for wdio",
+  "main": "server.js",
+  "scripts": {
+    "lint": "eslint . --ignore-path .gitignore",
+    "reset": "git clean -dXf && npm i",
+    "clean": "rimraf reports/",
+    "test": "wdio",
+    "report": "run-s clean && run-p report:lint report:allure",
+    "report:lint": "npm run lint -- -f node_modules/eslint-html-reporter/reporter.js -o reports/linting/index.html",
+    "report:allure": "allure generate -o ./reports/allure -- allure-results/",
+    "report:view": "hs ./reports -s -p 1729 -o"
+  },
+  "keywords": [
+    "wdio",
+    "simple",
+    "example"
+  ],
+  "author": "Robin Marr",
+  "license": "ISC",
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ],
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true
+    },
+    "globals": {
+      "browser": true,
+      "$": true,
+      "$$": true
+    },
+    "rules": {
+      "no-unused-expressions": 0
+    }
+  },
+  "devDependencies": {
+    "allure-commandline": "^2.0.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "chai-datetime": "^1.4.1",
+    "chai-string": "^1.3.0",
+    "chai-url": "^1.0.4",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-html-reporter": "^0.5.2",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-node": "^4.2.2",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "http-server": "^0.10.0",
+    "mocha": "^3.3.0",
+    "npm-run-all": "^4.0.2",
+    "rimraf": "^2.6.1",
+    "wdio-allure-reporter": "^0.1.2",
+    "wdio-mocha-framework": "^0.5.10",
+    "wdio-selenium-standalone-service": "0.0.8",
+    "wdio-spec-reporter": "^0.1.0",
+    "webdriverio": "^4.8.0"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3"
+  }
+}
