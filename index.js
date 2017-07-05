@@ -27,6 +27,6 @@ const started = (hostname, port) => () => {
   console.log(`${message} ${address}`)
 }
 
-exports.start = (hostname = '127.0.0.1', port = 1337) => {
+exports.start = (hostname = '0.0.0.0', port = 1337) => {
   http.createServer(requestHandler).listen(port, hostname, started(hostname, port))
 }
