@@ -39,7 +39,6 @@ exports.config = Object.assign({
   waitforTimeout: 5000,
   framework: 'mocha',
   reporters: ['spec', 'allure'],
-  services: ['selenium-standalone'],
   mochaOpts: {
     timeout: 5000
   },
