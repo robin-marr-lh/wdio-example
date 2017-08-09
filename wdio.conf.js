@@ -16,7 +16,7 @@ try {
   // ignore errors
 }
 
-const baseUrl = process.env.SELENIUM_BASE_URL || `http://${address()}:1337`
+const baseUrl = process.env.SELENIUM_BASE_URL || `http://${address()}:9876`
 
 let app
 exports.config = Object.assign({
