@@ -15,6 +15,14 @@ node {
   }
 
   try {
+    stage('lint') {
+      wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+        nodejs(nodeJSInstallationName: 'NodeJS 7.10.0') {
+          sh 'npm run report:lint'
+        }
+      }
+    }
+
     stage('test') {
       wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
         nodejs(nodeJSInstallationName: 'NodeJS 7.10.0') {
@@ -26,7 +34,7 @@ node {
     stage('report') {
       wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
         nodejs(nodeJSInstallationName: 'NodeJS 7.10.0') {
-          sh 'npm run report'
+          sh 'npm run report:allure'
           publishHTML(
             target: [
               allowMissing         : false,
