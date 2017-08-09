@@ -4,6 +4,7 @@ const chaiString = require('chai-string')
 const chaiUrl = require('chai-url')
 const chaiDatetime = require('chai-datetime')
 const { address } = require('ip')
+const { spawn } = require('child_process')
 const { browserstackUser, browserstackKey } = require('./config')
 
 let local = {}
@@ -46,6 +47,9 @@ exports.config = Object.assign({
   mochaOpts: {
     timeout: 10000
   },
+  onPrepare () {
+    app = spawn('node', ['server.js'], { stdio: 'inherit' })
+  },
   before () {
     chai.use(chaiAsPromised)
     chai.use(chaiString)
@@ -53,5 +57,8 @@ exports.config = Object.assign({
     chai.use(chaiDatetime)
     global.expect = chai.expect
     global.should = chai.Should()
+  },
+  onComplete () {
+    app.kill()
   }
 }, local)

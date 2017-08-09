@@ -4,14 +4,14 @@ const chaiString = require('chai-string')
 const chaiUrl = require('chai-url')
 const chaiDatetime = require('chai-datetime')
 const { address } = require('ip')
-const { browserstackUser, browserstackKey } = require('./config')
+const { spawn } = require('child_process')
 
 let local = {}
 try {
   /* enable local overrides via wdio.local.json */
   /* see wdio.local.example.json */
   /* eslint vars-on-top: 0, global-require: 0, import/no-unresolved: 0 */
-  // local = require('./wdio.local.js')
+  local = require('./wdio.local.js')
 } catch (err) {
   // ignore errors
 }
@@ -24,8 +24,8 @@ exports.config = Object.assign({
   exclude: [],
   maxInstances: 2,
   baseUrl,
-  // host: 'hub.docker.loveholidays.com',
-  // port: 4444,
+  host: 'hub.docker.loveholidays.com',
+  port: 4444,
   capabilities: [{
     browserName: 'chrome',
     chromeOptions: {
@@ -39,12 +39,11 @@ exports.config = Object.assign({
   waitforTimeout: 10000,
   framework: 'mocha',
   reporters: ['spec', 'allure'],
-  services: ['browserstack'],
-  user: browserstackUser,
-  key: browserstackKey,
-  browserstackLocal: true,
   mochaOpts: {
     timeout: 10000
+  },
+  onPrepare () {
+    app = spawn('node', ['server.js'], { stdio: 'inherit' })
   },
   before () {
     chai.use(chaiAsPromised)
@@ -53,5 +52,8 @@ exports.config = Object.assign({
     chai.use(chaiDatetime)
     global.expect = chai.expect
     global.should = chai.Should()
+  },
+  onComplete () {
+    app.kill()
   }
 }, local)
