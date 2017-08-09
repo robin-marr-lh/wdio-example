@@ -1,6 +1,7 @@
 /* eslint no-console: 0 */
 const http = require('http')
 const { join } = require('path')
+const { address } = require('ip')
 const { createReadStream } = require('fs')
 const { cyan, yellow } = require('chalk')
 
@@ -21,12 +22,13 @@ const requestHandler = (req, res) => {
   }
 }
 
+const currentIP = address()
 const started = (hostname, port) => () => {
   const message = cyan('Server running at')
   const address = yellow(`http://${hostname}:${port}/`)
   console.log(`${message} ${address}`)
 }
 
-exports.start = (hostname = '0.0.0.0', port = 1337) => {
+exports.start = (hostname = currentIP, port = 1337) => {
   http.createServer(requestHandler).listen(port, hostname, started(hostname, port))
 }
