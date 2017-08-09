@@ -22,13 +22,13 @@ const requestHandler = (req, res) => {
   }
 }
 
-const currentIP = address()
 const started = (hostname, port) => () => {
   const message = cyan('Server running at')
   const address = yellow(`http://${hostname}:${port}/`)
   console.log(`${message} ${address}`)
 }
 
+const currentIP = address()
 exports.start = (hostname = currentIP, port = 9876) => {
   http.createServer(requestHandler).listen(port, hostname, started(hostname, port))
 }
