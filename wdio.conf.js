@@ -36,11 +36,11 @@ exports.config = Object.assign({
   logLevel: 'silent',
   coloredLogs: true,
   screenshotPath: 'reports/screenshots',
-  waitforTimeout: 5000,
+  waitforTimeout: 10000,
   framework: 'mocha',
   reporters: ['spec', 'allure'],
   mochaOpts: {
-    timeout: 5000
+    timeout: 10000
   },
   onPrepare () {
     app = spawn('node', ['server.js'], { stdio: 'inherit' })
