@@ -3,7 +3,7 @@ const chaiAsPromised = require('chai-as-promised')
 const chaiString = require('chai-string')
 const chaiUrl = require('chai-url')
 const chaiDatetime = require('chai-datetime')
-const getLocalIP = require('./ip')
+const { address } = require('ip')
 const { spawn } = require('child_process')
 
 let local = {}
@@ -16,7 +16,7 @@ try {
   // ignore errors
 }
 
-const baseUrl = process.env.SELENIUM_BASE_URL || `http://${getLocalIP()}:1337`
+const baseUrl = process.env.SELENIUM_BASE_URL || `http://${address()}:1337`
 
 let app
 exports.config = Object.assign({
