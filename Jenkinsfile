@@ -1,5 +1,11 @@
 node {
-  stage('Install') {
+  stage('clone') {
+    wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+      git branch: 'master', credentialsId: '7ca61f54-04f0-4447-860f-a5917ee5cbae', poll: false, url: 'git@github.com:robin-marr-lh/wdio-example.git'
+    }
+  }
+
+  stage('install') {
     wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
       nodejs(nodeJSInstallationName: 'NodeJS 7.10.0') {
         sh 'npm install'
@@ -9,15 +15,15 @@ node {
   }
 
   try {
-    stage('Test') {
+    stage('test') {
       wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
         nodejs(nodeJSInstallationName: 'NodeJS 7.10.0') {
           sh 'npm test'
         }
       }
     }
-  } catch (error) {
-    stage('Report') {
+  } finally {
+    stage('report') {
       wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
         nodejs(nodeJSInstallationName: 'NodeJS 7.10.0') {
           sh 'npm run report'
@@ -44,6 +50,5 @@ node {
         }
       }
     }
-    throw error
   }
 }
