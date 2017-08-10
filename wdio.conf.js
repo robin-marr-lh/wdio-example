@@ -3,29 +3,26 @@ const chaiAsPromised = require('chai-as-promised')
 const chaiString = require('chai-string')
 const chaiUrl = require('chai-url')
 const chaiDatetime = require('chai-datetime')
-const { address } = require('ip')
-const { browserstackUser, browserstackKey } = require('./config')
 
 let local = {}
 try {
   /* enable local overrides via wdio.local.json */
   /* see wdio.local.example.json */
   /* eslint vars-on-top: 0, global-require: 0, import/no-unresolved: 0 */
-  // local = require('./wdio.local.js')
+  local = require('./wdio.local.js')
 } catch (err) {
   // ignore errors
 }
 
-const baseUrl = process.env.SELENIUM_BASE_URL || `http://${address()}:9876`
+const baseUrl = process.env.SELENIUM_BASE_URL || 'http://www.loveholidays.com'
 
-let app
-exports.config = Object.assign({
+const config = Object.assign({
   specs: ['./specs/**/*.js'],
   exclude: [],
   maxInstances: 2,
   baseUrl,
-  // host: 'hub.docker.loveholidays.com',
-  // port: 4444,
+  host: 'hub.docker.loveholidays.com',
+  port: 4444,
   capabilities: [{
     browserName: 'chrome',
     chromeOptions: {
@@ -39,10 +36,6 @@ exports.config = Object.assign({
   waitforTimeout: 10000,
   framework: 'mocha',
   reporters: ['spec', 'allure'],
-  services: ['browserstack'],
-  user: browserstackUser,
-  key: browserstackKey,
-  browserstackLocal: true,
   mochaOpts: {
     timeout: 10000
   },
@@ -55,3 +48,9 @@ exports.config = Object.assign({
     global.should = chai.Should()
   }
 }, local)
+
+// filter keys with a value of undefined or null
+exports.config = Object.keys(config).reduce((result, key) => {
+  if (config[key]) result[key] = config[key]
+  return result
+}, {})

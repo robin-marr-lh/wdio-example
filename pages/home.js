@@ -1,8 +1,13 @@
 const Page = require('./page')
+const Header = require('./partials/header')
+const Footer = require('./partials/footer')
+const SearchUnit = require('./partials/search-unit')
 
 class HomePage extends Page {
-  get content () { return this.main.$('p') }
-
+  get header () { return new Header() }
+  get footer () { return new Footer() }
+  get content () { return $('#page-content') }
+  get searchUnit () { return new SearchUnit() }
   constructor () {
     super()
     this.name = 'home-page'
@@ -11,7 +16,7 @@ class HomePage extends Page {
 
   open () {
     super.open(this.url)
-    this.main.waitForVisible()
+    this.content.waitForVisible()
     return browser
   }
 }

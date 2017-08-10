@@ -1,16 +1,15 @@
 {
-  "name": "wdio-example",
+  "name": "loveholidays-e2e",
   "version": "1.0.0",
-  "description": "an example project for wdio",
-  "main": "server.js",
+  "description": "selenium test for loveholidays.com",
   "scripts": {
     "lint": "eslint . --ignore-path .gitignore",
     "reset": "git clean -dXf && npm i",
     "clean": "rimraf reports/",
     "test": "wdio",
     "dev": "wdio --watch",
-    "report": "run-s clean && run-p report:lint report:allure",
-    "report:lint": "npm run lint -- -f node_modules/eslint-html-reporter/reporter.js -o reports/linting/index.html",
+    "report": "run-s clean && run-p -s -c report:lint report:allure",
+    "report:lint": "npm --silent run lint -- -f node_modules/eslint-html-reporter/reporter.js -o reports/linting/index.html",
     "report:allure": "allure generate -o ./reports/allure -- allure-results/",
     "report:view": "hs ./reports -s -p 1729 -o"
   },
@@ -59,6 +58,7 @@
     "npm-run-all": "^4.0.2",
     "rimraf": "^2.6.1",
     "wdio-allure-reporter": "^0.1.2",
+    "wdio-browserstack-service": "^0.1.11",
     "wdio-mocha-framework": "^0.5.10",
     "wdio-selenium-standalone-service": "0.0.8",
     "wdio-spec-reporter": "^0.1.0",
